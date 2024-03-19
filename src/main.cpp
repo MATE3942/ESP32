@@ -7,69 +7,69 @@ void displayNumber(int number);
   const int ledPins[] = {12, 14, 27, 26, 25, 33, 32};
 
 void setup() {
-  // Initialize serial communication at 115200 baud rate
   Serial.begin(115200);
-
   // Set all the LED pins as outputs
   for (int i = 0; i < 7; i++) {
     pinMode(ledPins[i], OUTPUT);
   }
+
+  Serial.println("Press any key to start counting.");
+  while (!Serial.available());
 }
 
 void loop() {
-  Serial.println("Type the number you want to see in the 7 segment display: ");
-  while (!Serial.available()); // Wait for user input
+  // Code for counting from 0 to 9
+  static int counter = 0; // Counter variable
+  displayNumber(counter); // Write to the 7 segment display
+  counter = (counter + 1) % 10; // Reset to 0 after reaching 9
 
-  // Read the number from serial
-  int number = Serial.parseInt();
+  // Code for counting from 9 to 0
+  /*static int counter = 9; // Counter variable
+  displayNumber(counter); // Write to the 7 segment display
+  counter = (counter - 1 + 10) % 10; // Reset to 9 after reaching 0*/
 
-  // Clear the serial buffer
-  while(Serial.available() > 0) {
-    Serial.read();
-  }
-
-  // Write to the 7 segment display
-  switch(number) {
-    case 1:
-      displayNumber(6);
-      break;
-    case 2:
-      displayNumber(91);
-      break;
-    case 3:
-      displayNumber(79);
-      break;
-    case 4:
-      displayNumber(102);
-      break;
-    case 5:
-      displayNumber(109);
-      break;
-    case 6:
-      displayNumber(125);
-      break;
-    case 7:
-      displayNumber(7);
-      break;
-    case 8:
-      displayNumber(127);
-      break;
-    case 9:
-      displayNumber(111);
-      break;
-    case 0:
-      displayNumber(63);
-      break;
-    default:
-      displayNumber(0);
-      break;
-  }
   delay(1000);
 }
 
 void displayNumber(int number) {
-  // Assuming common anode 7-segment display
+  int n;
+  switch(number) {
+    case 1:
+      n = 6;
+      break;
+    case 2:
+      n = 91;
+      break;
+    case 3:
+      n = 79;
+      break;
+    case 4:
+      n = 102;
+      break;
+    case 5:
+      n = 109;
+      break;
+    case 6:
+      n = 125;
+      break;
+    case 7:
+      n = 7;
+      break;
+    case 8:
+      n = 127;
+      break;
+    case 9:
+      n = 111;
+      break;
+    case 0:
+      n = 63;
+      break;
+    default:
+      n = 0;
+      break;
+  }
+  // Common cathode 7-segment display
   for (int i = 0; i < 7; i++) {
-    digitalWrite(ledPins[i], (number >> i) & 1);
+    digitalWrite(ledPins[i], (n >> i) & 1);
   }
 }

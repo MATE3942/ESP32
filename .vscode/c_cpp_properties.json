@@ -8,9 +8,8 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "c:/Users/mateo/Documents/PlatformIO/Projects/LEDWebPage/include",
-                "c:/Users/mateo/Documents/PlatformIO/Projects/LEDWebPage/src",
-                "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/include",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -230,6 +229,7 @@
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
@@ -238,9 +238,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/Users/mateo/Documents/PlatformIO/Projects/LEDWebPage/include",
-                    "c:/Users/mateo/Documents/PlatformIO/Projects/LEDWebPage/src",
-                    "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/include",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -460,6 +459,7 @@
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                    "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",

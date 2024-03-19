@@ -1,112 +1,71 @@
 #include <Arduino.h>
-#include <WiFi.h>
 
-const char *WIFI_NAME = "";
-const char *WIFI_PASSWORD = "";
+// Define the GPIO pins for the RGB LED
+const int ledRPin = 16; // Example pin for red
+const int ledGPin = 17; // Example pin for green
+const int ledBPin = 5; // Example pin for blue
 
-WiFiServer server(80);
+// Set the frequency and resolution for PWM
+const int freq = 5000;
+const int resolution = 8;
 
-String header;
+// Define the LED channels
+const int ledRChannel = 0;
+const int ledGChannel = 1;
+const int ledBChannel = 2;
 
-String LED_STATE = "off";
+void setup() {
+  // Initialize serial communication
+  Serial.begin(115200);
 
-const int GPIOpin = 23;
+  // Configure LED PWM functionalities
+  ledcSetup(ledRChannel, freq, resolution);
+  ledcSetup(ledGChannel, freq, resolution);
+  ledcSetup(ledBChannel, freq, resolution);
 
-void setup()
-{
-    Serial.begin(115200);
-    pinMode(GPIOpin, OUTPUT);
-
-    digitalWrite(GPIOpin, LOW);
-
-    Serial.print("Connecting to ");
-    Serial.println(WIFI_NAME);
-    WiFi.begin(WIFI_NAME, WIFI_PASSWORD);
-    Serial.print("Trying to connect to Wifi Network");
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        delay(1000);
-       Serial.print(".");
-    }
-    Serial.println("");
-    Serial.println("Successfully connected to WiFi network");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
-    server.begin();
+  // Attach the channels to the GPIOs to be controlled
+  ledcAttachPin(ledRPin, ledRChannel);
+  ledcAttachPin(ledGPin, ledGChannel);
+  ledcAttachPin(ledBPin, ledBChannel);
 }
 
-void loop()
-{
-    WiFiClient client = server.available();
-    if (client)
-    {
-        Serial.println("New Client is requesting web page");
-        String current_data_line = "";
-        while (client.connected())
-        {
-            if (client.available())
-            {
-                char new_byte = client.read();
-                Serial.write(new_byte);
-                header += new_byte;
-                if (new_byte == '\n')
-                {
-                    if (current_data_line.length() == 0)
-                    {
-                        // Send a response to the client
-                        client.println("HTTP/1.1 200 OK");
-                        client.println("Content-type:text/html");
-                        client.println("Connection: close");
-                        client.println();
-                        // Check the value of the pin
-                        if (header.indexOf("LED1=ON") != -1)
-                        {
-                            Serial.println("GPIO23 LED is ON");
-                            LED_STATE = "on";
-                            digitalWrite(GPIOpin, HIGH);
-                        }
-                        if (header.indexOf("LED1=OFF") != -1)
-                        {
-                            Serial.println("GPIO23 LED is OFF");
-                            LED_STATE = "off";
-                            digitalWrite(GPIOpin, LOW);
-                        }
-                        // Display the HTML web page
-                        client.println("<!DOCTYPE html><html>");
-                        client.println("<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-                        client.println("<link rel=\"icon\" href=\"data:,\">");
-                        client.println("<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}");
-                        client.println(".button { background-color: #4CAF50; border: 2px solid #4CAF50;; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; }");
-                        client.println("text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;}");
-                        // Web Page Heading
-                        client.println("</style></head>");
-                        client.println("<body><center><h1>ESP32 Web server LED control</h1></center>");
-                        client.println("<center><h2>Press Button to interact</h3></center>");
-                        client.println("<form><center>");
-                        client.println("<p> LED one is " + LED_STATE + "</p>");
-                        // If the PIN_NUMBER_22State is off, it displays the ON button
-                        client.println("<center> <button class=\"button\" name=\"LED1\" value=\"ON\" type=\"submit\">LED1 ON</button>");
-                        client.println("<button class=\"button\" name=\"LED1\" value=\"OFF\" type=\"submit\">LED1 OFF</button><br><br>");
-                        client.println("</center></form></body></html>");
-                        client.println();
-                        break;
-                    }
-                    else
-                    {
-                        current_data_line = "";
-                    }
-                }
-                else if (new_byte != '\r')
-                {
-                    current_data_line += new_byte;
-                }
-            }
-        }
-        // Clear the header variable
-        header = "";
-        // Close the connection
-        client.stop();
-        Serial.println("Client disconnected.");
-        Serial.println("");
-    }
+void loop() {
+  // Ask for the RGB value
+  Serial.println("Enter a Hexadecimal value: ");
+  while (!Serial.available()) {
+    // Wait for input
+  }
+  String hexCode = Serial.readStringUntil('\n');
+
+  // Remove the '#' character from the hexadecimal code
+  if (hexCode[0] == '#') {
+    hexCode.remove(0, 1);
+  }
+
+  // Convert the hexadecimal code to integer
+  long hexValue = strtol(hexCode.c_str(), nullptr, 16);
+
+  // Extract the red, green, and blue values using bitwise operations and bit shifting
+  int red = (hexValue >> 16) & 0xFF;
+  int green = (hexValue >> 8) & 0xFF;
+  int blue = hexValue & 0xFF;
+
+  // Invert the values for Common Anode LED
+  red = 255 - red;
+  green = 255 - green;
+  blue = 255 - blue;
+
+  // Write the inverted values to the LED
+  ledcWrite(ledRChannel, red);
+  ledcWrite(ledGChannel, green);
+  ledcWrite(ledBChannel, blue);
+
+  Serial.print("Red: ");
+  Serial.print(255 - red); // Print original values
+  Serial.print(", Green: ");
+  Serial.print(255 - green);
+  Serial.print(", Blue: ");
+  Serial.println(255 - blue);
+
+  Serial.println("------------------------------");
 }

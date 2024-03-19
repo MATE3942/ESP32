@@ -1,43 +1,88 @@
 #include <Arduino.h>
+//#include <TinyGPSPlus.h>
+//#include <SoftwareSerial.h>
 
-const int Vcc = 23;
-const int trigPin = 5;
-const int echoPin = 18;
-
-//define sound speed in cm/uS
-#define SOUND_SPEED 0.034
-
-long duration;
-float distanceCm;
-float distanceInch;
+// Function Declarations
+void updateSerial();
+void test_sim800_module();
+void send_SMS();
 
 void setup() {
-  pinMode(Vcc, OUTPUT); // Sets the Vcc as an Output
-  digitalWrite(GPIO_NUM_23, HIGH); // Sets the Vcc to HIGH
-
-  Serial.begin(115200); // Starts the serial communication
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  Serial.begin(115200);
+  Serial2.begin(115200);
+  Serial.println("Initializing...");
+  delay(3000);
+  test_sim800_module();
+  send_SMS();
 }
 
 void loop() {
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigPin on HIGH state for 10 micro seconds
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  
-  // Reads the echoPin, returns the sound wave travel time in microseconds
-  duration = pulseIn(echoPin, HIGH);
-  
-  // Calculate the distance
-  distanceCm = duration * SOUND_SPEED/2;
-  
-  // Prints the distance in the Serial Monitor
-  Serial.print("Distance (cm): ");
-  Serial.println(distanceCm);
-  
-  delay(1000);
+  updateSerial();
+}
+
+void test_sim800_module()
+{
+  Serial.println("Testing SIM800 Module\n");
+
+  Serial.println("Communication with the module");
+  Serial2.println("AT");
+  updateSerial();
+  Serial.println("-----------------------------");
+
+  Serial.println("Signal Quality: should be more than 5");
+  Serial2.println("AT+CSQ");
+  updateSerial();
+  Serial.println("-----------------------------");
+
+  Serial.println("SIM card ID");
+  Serial2.println("AT+CCID");
+  updateSerial();
+  Serial.println("-----------------------------");
+
+  Serial.println("Network Registration: 1 for home network and 5 for public network");
+  Serial2.println("AT+CREG?");
+  updateSerial();
+  Serial.println("-----------------------------");
+
+  Serial.println("Product Information");
+  Serial2.println("ATI");
+  updateSerial();
+  Serial.println("-----------------------------");
+
+  Serial.println("Battery Information");
+  Serial2.println("AT+CBC");
+  updateSerial();
+  Serial.println("-----------------------------");
+
+  Serial.println("Operator Information");
+  Serial2.println("AT+COPS?");
+  updateSerial();
+  Serial.println("-----------------------------");
+}
+
+// Function Definitions
+void updateSerial()
+{
+  delay(500);
+  while (Serial.available())
+  {
+    Serial2.write(Serial.read());//Forward what Serial received to Software Serial Port
+  }
+  while (Serial2.available())
+  {
+    Serial.write(Serial2.read());//Forward what Software Serial received to Serial Port
+  }
+}
+
+void send_SMS()
+{
+  Serial2.println("AT+CMGF=1"); // Configuring TEXT mode
+  updateSerial();
+  Serial2.println("AT+CMGS=\"+573226137339\"");//Phone number to SMS
+  updateSerial();
+  Serial2.print("Circuit Digest"); //text content
+  updateSerial();
+  Serial.println();
+  Serial.println("Message Sent");
+  Serial2.write(26);
 }

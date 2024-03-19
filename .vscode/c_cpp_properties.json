@@ -8,8 +8,10 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "c:/Users/mateo/Documents/PlatformIO/Projects/HC-SR04/include",
-                "c:/Users/mateo/Documents/PlatformIO/Projects/HC-SR04/src",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/include",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/src",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/.pio/libdeps/esp32dev/EspSoftwareSerial/src",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/.pio/libdeps/esp32dev/TinyGPSPlus-ESP32/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -238,8 +240,10 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/Users/mateo/Documents/PlatformIO/Projects/HC-SR04/include",
-                    "c:/Users/mateo/Documents/PlatformIO/Projects/HC-SR04/src",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/include",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/src",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/.pio/libdeps/esp32dev/EspSoftwareSerial/src",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/SIM800L Test/.pio/libdeps/esp32dev/TinyGPSPlus-ESP32/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",

@@ -8,8 +8,8 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/include",
-                "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/src",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/7SegmentLED/include",
+                "c:/Users/mateo/Documents/PlatformIO/Projects/7SegmentLED/src",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                 "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -238,8 +238,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/include",
-                    "c:/Users/mateo/Documents/PlatformIO/Projects/RBG_ExternalLED/src",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/7SegmentLED/include",
+                    "c:/Users/mateo/Documents/PlatformIO/Projects/7SegmentLED/src",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                     "C:/Users/mateo/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",

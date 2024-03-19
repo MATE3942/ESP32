@@ -1,71 +1,75 @@
 #include <Arduino.h>
 
-// Define the GPIO pins for the RGB LED
-const int ledRPin = 16; // Example pin for red
-const int ledGPin = 17; // Example pin for green
-const int ledBPin = 5; // Example pin for blue
+// Function declarations
+void displayNumber(int number);
 
-// Set the frequency and resolution for PWM
-const int freq = 5000;
-const int resolution = 8;
-
-// Define the LED channels
-const int ledRChannel = 0;
-const int ledGChannel = 1;
-const int ledBChannel = 2;
+// Define the LED pins
+  const int ledPins[] = {12, 14, 27, 26, 25, 33, 32};
 
 void setup() {
-  // Initialize serial communication
+  // Initialize serial communication at 115200 baud rate
   Serial.begin(115200);
 
-  // Configure LED PWM functionalities
-  ledcSetup(ledRChannel, freq, resolution);
-  ledcSetup(ledGChannel, freq, resolution);
-  ledcSetup(ledBChannel, freq, resolution);
-
-  // Attach the channels to the GPIOs to be controlled
-  ledcAttachPin(ledRPin, ledRChannel);
-  ledcAttachPin(ledGPin, ledGChannel);
-  ledcAttachPin(ledBPin, ledBChannel);
+  // Set all the LED pins as outputs
+  for (int i = 0; i < 7; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
 }
 
 void loop() {
-  // Ask for the RGB value
-  Serial.println("Enter a Hexadecimal value: ");
-  while (!Serial.available()) {
-    // Wait for input
+  Serial.println("Type the number you want to see in the 7 segment display: ");
+  while (!Serial.available()); // Wait for user input
+
+  // Read the number from serial
+  int number = Serial.parseInt();
+
+  // Clear the serial buffer
+  while(Serial.available() > 0) {
+    Serial.read();
   }
-  String hexCode = Serial.readStringUntil('\n');
 
-  // Remove the '#' character from the hexadecimal code
-  if (hexCode[0] == '#') {
-    hexCode.remove(0, 1);
+  // Write to the 7 segment display
+  switch(number) {
+    case 1:
+      displayNumber(6);
+      break;
+    case 2:
+      displayNumber(91);
+      break;
+    case 3:
+      displayNumber(79);
+      break;
+    case 4:
+      displayNumber(102);
+      break;
+    case 5:
+      displayNumber(109);
+      break;
+    case 6:
+      displayNumber(125);
+      break;
+    case 7:
+      displayNumber(7);
+      break;
+    case 8:
+      displayNumber(127);
+      break;
+    case 9:
+      displayNumber(111);
+      break;
+    case 0:
+      displayNumber(63);
+      break;
+    default:
+      displayNumber(0);
+      break;
   }
+  delay(1000);
+}
 
-  // Convert the hexadecimal code to integer
-  long hexValue = strtol(hexCode.c_str(), nullptr, 16);
-
-  // Extract the red, green, and blue values using bitwise operations and bit shifting
-  int red = (hexValue >> 16) & 0xFF;
-  int green = (hexValue >> 8) & 0xFF;
-  int blue = hexValue & 0xFF;
-
-  // Invert the values for Common Anode LED
-  red = 255 - red;
-  green = 255 - green;
-  blue = 255 - blue;
-
-  // Write the inverted values to the LED
-  ledcWrite(ledRChannel, red);
-  ledcWrite(ledGChannel, green);
-  ledcWrite(ledBChannel, blue);
-
-  Serial.print("Red: ");
-  Serial.print(255 - red); // Print original values
-  Serial.print(", Green: ");
-  Serial.print(255 - green);
-  Serial.print(", Blue: ");
-  Serial.println(255 - blue);
-
-  Serial.println("------------------------------");
+void displayNumber(int number) {
+  // Assuming common anode 7-segment display
+  for (int i = 0; i < 7; i++) {
+    digitalWrite(ledPins[i], (number >> i) & 1);
+  }
 }
